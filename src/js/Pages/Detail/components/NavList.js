@@ -10,21 +10,21 @@ export default class NavList extends React.Component {
 		}
 	}
 	componentDidMount() {
-		
-		var detail_url = `https://mainsite-restapi.ele.me/shopping/v2/menu?restaurant_id=${this.props.shopid}`;
 
+		// var detail_url = `https://mainsite-restapi.ele.me/shopping/v2/menu?restaurant_id=${this.props.shopid}`;
+		var me = this;
 		model.register("changeCurIndex", function(index) {
 			me.setState({
 				curIndex: index
 			})
 		})
 
-		fetch(detail_url).then(function(res) {
+		/*fetch(detail_url).then(function(res) {
 							return res.json();
 						}).then(function(data) {
 							console.log(data);
 							model.dispatch("getFoodList", data)
-						})
+						})*/
 	}
 	handle(index) {
 		this.setState({

@@ -2,7 +2,6 @@ import SingleCart from "./SingleCart.js";
 import FoodItem from "./FoodItem.js";
 
 export default class FoodList extends React.Component {
-	
 	render() {
 		return (
 			<div className="food-list">
@@ -27,8 +26,4 @@ export default class FoodList extends React.Component {
 			</div>
 		)
 	}
-}
-
-FoodList.contextTypes = {
-	heightList: React.PropTypes.array
 }

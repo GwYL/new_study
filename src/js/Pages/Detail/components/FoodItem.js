@@ -1,4 +1,9 @@
+import {Store} from "$tool/commonMethod.js";
+
 export default class FoodItem extends React.Component {
+	constructor(props) {
+		super(props);
+	}
 	shouldComponentUpdate() {
 		return true;
 	}
@@ -8,8 +13,9 @@ export default class FoodItem extends React.Component {
 		if(this.context.heightList.length > 0) {
 			height += this.context.heightList[this.context.heightList.length - 1];
 		}
-
+		console.log(this.context.heightList);
 		this.context.heightList.push(height);
+
 	}
 	render() {
 		return (

@@ -4,7 +4,7 @@ var model = new EventEmmit();
 
 export default class SingleCart extends React.Component {
 	minus() {
-		if (this.props.item.num === 0) {
+		if (this.props.item.num <= 0) {
 			return;
 		}
 		this.props.item.num--;
@@ -44,15 +44,19 @@ export default class SingleCart extends React.Component {
 		} else {
 			return (
 				<li className="cart-info">
-					<p>热腾腾澳洲铁板牛扒</p>
-					<p>￥28</p>
+					<p>{this.props.item.name}</p>
+					<p>￥{this.props.item.specfoods[0].price}</p>
 					<p>
-						<span className="minus">-</span>
-						<span className="num">1</span>
-						<span className="plus">+</span>
+						<span onClick={this.minus.bind(this)} className="minus">-</span>
+						<span className="num">{this.props.item.num}</span>
+						<span onClick={this.plus.bind(this)} className="plus">+</span>
 					</p>
 				</li>
 			)
 		}		
 	}
+}
+
+SingleCart.contextTypes = {
+	shopId: React.PropTypes.number
 }

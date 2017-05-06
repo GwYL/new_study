@@ -33,7 +33,7 @@ export default class SplitPane extends React.Component {
 
 		for (var i = 0, len = this.context.heightList.length; i < len; i++) {
 			if(offset < this.context.heightList[i]) {
-				model.dipatch("changeCurIndex", i);
+				model.dispatch("changeCurIndex", i);
 				break;
 			}
 		}
@@ -42,7 +42,8 @@ export default class SplitPane extends React.Component {
 		var options = {
 			mouseWheel: true,
 			scrollbars: true,
-			bounce: false								
+			bounce: false,
+			probeType: 2								
 		}
 		return (
 			<div className="detail-wrapper">

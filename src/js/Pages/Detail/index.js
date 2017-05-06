@@ -3,7 +3,7 @@ import FoodList from "./components/FoodList.js";
 import CartView from "./components/CartView.js";
 import PriceBar from "./components/PriceBar.js";
 import SplitPane from "./components/SplitPane.js";
-import {EventEmmit} from "$tool/commonMethod.js";
+import {Store, EventEmmit} from "$tool/commonMethod.js";
 
 class Detail extends React.Component {
 	constructor(props) {
@@ -45,19 +45,43 @@ class Detail extends React.Component {
 			})
 		})
 
+		model.register("showCartView", function(flag) {
+			me.setState({
+				toggle: flag || !me.state.toggle
+			})
+		})
+
 		var url = `https://mainsite-restapi.ele.me/shopping/v2/menu?restaurant_id=${this.props.params.shopId}`;
 
 		fetch(url).then(function(res) {
 			return res.json()
 		}).then(function(data) {
 			var cartViewList = Store(me.state.shopId);
+			for (var i = 0, len = data.length; i < len; i++) {
+				for (var j = 0, l = data[i].foods.length; j < l; j++) {
+					for (var key in cartViewList) {
+						if (cartViewList[key].item_id === data[i].foods[j].item_id) {
+							data[i].foods[j].num = cartViewList[key].num;
+						}
+					}
+				}
+			}
 			me.setState({
-				// list: data
+				list: data
 			})
 		})
 
 	}
 	render() {
+		var cartViewList = Store(this.state.shopId) || {};
+		for (var i = 0, len = this.state.list.length; i < len; i++) {
+			for (var j = 0, l = this.state.list[i].foods.length; j < l; j++) {
+				if (this.state.list[i].foods[j].num > 0) {
+					cartViewList[this.state.list[i].foods[j].item_id] = this.state.list[i].foods[j];
+				}
+			}
+		}
+		Store(this.state.shopId, cartViewList);
 		return (
 			<div id="detail">
 				<div className="detail-header">
@@ -74,8 +98,9 @@ class Detail extends React.Component {
 				</SplitPane>
 				
 				<div className="detail-footer">
-					<CartView data={cartViewList}></CartView>
+					<CartView show={this.state.toggle} data={cartViewList}></CartView>
 					<PriceBar data={cartViewList}></PriceBar>
+					<div className="pay">去结算</div>
 				</div>
 			</div>
 		)
