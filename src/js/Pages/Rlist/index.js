@@ -14,6 +14,10 @@ import ReactSwipe from "react-swipe";
 
 import HeaderIcon from "./component/headerIcon.js";
 
+import ReactIScroll from "react-iscroll";
+
+import iScroll from "iscroll/build/iscroll-probe";
+
 
 class Rlist extends React.Component {
 	constructor(props) {
@@ -24,8 +28,7 @@ class Rlist extends React.Component {
 		}
 	}
 	componentDidMount() {
-		console.log("in componentDidMount");
-		console.log(this.props.params.geohash);
+
 		var me = this;
 		var url = `/v2/index_entry?geohash=${this.props.params.geohash}&group_type=1&flags[]=F`;
 
@@ -55,6 +58,12 @@ class Rlist extends React.Component {
 				})
 	}
 	render() {
+		var options = {
+			mouseWheel: true,
+			scrollbars: true,
+			bounce: false,
+			probeType: 2								
+		}
 		return (
 			<div id="rList">
 				<div className="bar bar-header bar-light">
@@ -63,22 +72,26 @@ class Rlist extends React.Component {
 				</div>
 				<SearchBox type="jump"></SearchBox>
 				<HeaderIcon data={this.state.iconList}></HeaderIcon>
-				<List>
-					{
-						this.state.list.map(function(val, index) {					
-								var link = `/detail/${val.id}`;
-								return (
-									<ItemLi 
-										type="rlist"
-										key={index}
-										lat={val.latitude}
-										lng={val.longitude}>
-										<Link to={link}>{val.name}</Link>
-									</ItemLi>
-								)
-						})
-					}
-				</List>
+				<ReactIScroll iScroll={iScroll} options={options}>
+					<div>
+						<List>
+							{
+								this.state.list.map(function(val, index) {					
+										var link = `/detail/${val.id}`;
+										return (
+											<ItemLi
+												type="rlist"
+												key={index}
+												lat={val.latitude}
+												lng={val.longitude}>
+												<Link to={link}>{val.name}</Link>
+											</ItemLi>
+										)
+								})
+							}
+						</List>
+					</div>
+				</ReactIScroll>
 			</div>
 		)
 	}

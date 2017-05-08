@@ -26,7 +26,7 @@ export default class HeaderIcon extends React.Component {
 			var arr = list.slice(0 + (i * 8), 8 + (i * 8));
 			new_list.push(arr);
 		}
-		console.log(new_list);
+
 		return (
 			<div className="swipeWrap">
 				<div className="upwrapper">
@@ -42,10 +42,19 @@ export default class HeaderIcon extends React.Component {
 								return (
 									<div key={index} className="item-pane">
 										<ul>
-											<li className="nav-info">
-												<div className="nav-img"></div>
-												<span>{value[me.state.index].title}</span>
-											</li>
+											{
+												value.map(function(val, item) {
+													var imgUrl = `//fuss10.elemecdn.com/${val.image_url}?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/`;
+													return (
+														<li className="nav-info" key={item}>
+															<div className="nav-img">
+																<img src={imgUrl} />
+															</div>
+															<span>{val.title}</span>
+														</li>
+													)
+												})
+											}
 										</ul>
 									</div>
 								)
